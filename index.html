@@ -216,11 +216,16 @@
             color: var(--color-primary);
             font-weight: 400;
             letter-spacing: 0.01em;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
         }
 
         .solution-content p {
             margin-bottom: var(--space-lg);
             transition: all var(--transition-normal);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .solution-content p:hover {
@@ -239,12 +244,43 @@
             box-shadow: var(--shadow-sm);
             border: 1px solid rgba(255, 255, 255, 0.3);
             transition: all var(--transition-normal);
+            overflow-x: auto;
+            overflow-y: hidden;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
         }
 
         .math-display:hover {
             transform: translateX(4px);
             box-shadow: var(--shadow-md);
             border-left-color: var(--color-accent-light);
+        }
+
+        /* 수학 공식 가로 스크롤 지원 */
+        .math-display .MathJax {
+            overflow-x: auto;
+            overflow-y: hidden;
+            max-width: 100%;
+        }
+
+        /* 긴 수식에 대한 스크롤바 스타일링 */
+        .math-display::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .math-display::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+
+        .math-display::-webkit-scrollbar-thumb {
+            background: var(--color-accent);
+            border-radius: 3px;
+        }
+
+        .math-display::-webkit-scrollbar-thumb:hover {
+            background: var(--color-accent-light);
         }
 
         .back-button {
@@ -354,6 +390,14 @@
             .math-display {
                 font-size: 1.125rem;
                 padding: var(--space-lg);
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .solution-content {
+                font-size: 1rem;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
             }
         }
 
@@ -394,11 +438,16 @@
             
             .solution-content {
                 color: var(--color-primary);
+                word-wrap: break-word;
+                overflow-wrap: break-word;
             }
             
             .math-display {
                 background: linear-gradient(135deg, rgba(74, 85, 104, 0.9) 0%, rgba(45, 55, 72, 0.8) 100%);
                 border: 1px solid rgba(255, 255, 255, 0.1);
+                overflow-x: auto;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
             }
         }
     </style>
@@ -439,18 +488,19 @@
                 title: '문제 1번 해설',
                 content: `
                     <div class="math-display">
-$\displaystyle E(X)$$\displaystyle = ( - 3) \times \frac{1}{2} + 0 \times \frac{1}{4} + a \times \frac{1}{4}$$\displaystyle = - \frac{3}{2} + \frac{a}{4}$
+$\\displaystyle E(X)$$\\displaystyle = ( - 3) \\times \\frac{1}{2} + 0 \\times \\frac{1}{4} + a \\times \\frac{1}{4}$
+$\\displaystyle = - \\frac{3}{2} + \\frac{a}{4}$
 </div>
 <div class="math-display">
-$\displaystyle - \frac{3}{2} + \frac{a}{4}$$\displaystyle - 1$에서
-$\displaystyle a$$\displaystyle = 2$
+$\\displaystyle - \\frac{3}{2} + \\frac{a}{4}$
+$\\displaystyle - 1$에서 $\\displaystyle a$ $\\displaystyle = 2$
 </div>
 <div class="math-display">
-$\displaystyle V(X)$$\displaystyle = ( - 3 + 1)^{2} \times \frac{1}{2} + (0 + 1)^{2} \times \frac{1}{4} + (2 + 1)^{2} \times \frac{1}{4}$$\displaystyle = \frac{9}{2}$
+$\\displaystyle V(X)$$\\displaystyle = ( - 3 + 1)^{2} \\times \\frac{1}{2} + (0 + 1)^{2} \\times \\frac{1}{4} + (2 + 1)^{2} \\times \\frac{1}{4}$$\\displaystyle = \\frac{9}{2}$
 </div>
 <div class="math-display">
 따라서
-$\displaystyle 2V(X)$$\displaystyle = 2^{2} \times V(X)$$\displaystyle = 4 \times \frac{9}{2}$$\displaystyle = 18$
+$\\displaystyle 2V(X)$ $\\displaystyle = 2^{2} \\times V(X)$$\\displaystyle = 4 \\times \\frac{9}{2}$$\\displaystyle = 18$
 </div>
                 `
             },
@@ -581,4 +631,5 @@ $\displaystyle 2V(X)$$\displaystyle = 2^{2} \times V(X)$$\displaystyle = 4 \time
     </script>
 </body>
 </html>
+
 
