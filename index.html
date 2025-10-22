@@ -439,42 +439,19 @@
                 title: '문제 1번 해설',
                 content: `
                     <div class="math-display">
-                        $\\displaystyle \\int_{- 3}^{3}{(x + 1)f(x)dx} = \\int_{- 3}^{3}{\\{ xf(x) + f(x)\\}(x)dx} = \\int_{- 3}^{3}{xf(x)dx} + \\int_{- 3}^{3}{f(x)dx}$이다.
-                    </div>
-                    
-                    <p>문제 조건에 의해</p>
-                    
-                    <div class="math-display">
-                        $\\displaystyle \\int_{- 3}^{\\,\\, 3}{(x + 1)f(x)\\, dx} = 36 + \\int_{- 3}^{\\,\\, 3}{f(x)\\, dx}$이므로
-                    </div>
-                    
-                    <div class="math-display">
-                        $\\displaystyle \\int_{- 3}^{\\,\\, 3}{xf(x)\\, dx} + \\int_{- 3}^{\\,\\, 3}{f(x)\\, dx} = 36 + \\int_{- 3}^{\\,\\, 3}{f(x)\\, dx}$이다.
-                    </div>
-                    
-                    <p>따라서 $\\displaystyle \\int_{- 3}^{\\,\\, 3}{xf(x)\\, dx} = 36$이다. ... ⑴</p>
-                    
-                    <p>여기서 $\\displaystyle f(x) = x^{2} + ax\\,$이므로</p>
-                    
-                    <div class="math-display">
-                        $\\displaystyle \\int_{- 3}^{\\,\\, 3}{xf(x)\\, dx} = \\int_{- 3}^{\\,\\, 3}{x(x^{2} + ax)\\, dx} = \\int_{- 3}^{\\,\\, 3}{(x^{3} + {ax}^{2})\\, dx}$이다.
-                    </div>
-                    
-                    <p>적분 구간의 위끝과 아래끝의 부호는 다르고 절댓값은 같다.</p>
-                    
-                    <p>따라서 기함수와 우함수의 적분 성질에 의해</p>
-                    
-                    <div class="math-display">
-                        $\\displaystyle \\int_{- 3}^{\\,\\, 3}{(x^{3} + {ax}^{2})\\, dx}\\, = \\int_{- 3}^{\\,\\, 3}{x^{3}dx} + \\int_{- 3}^{\\,\\, 3}{{ax}^{2}dx}\\, = 0 + 2\\int_{0}^{\\,\\, 3}{{ax}^{2}dx}$이다.
-                        ... ⑵
-                    </div>
-                    
-                    <p>⑴, ⑵에 의해 $\\displaystyle 2\\int_{0}^{\\,\\, 3}{{ax}^{2}dx} = 36$이다.</p>
-                    
-                    <div class="math-display">
-                        $\\displaystyle 2 \\times \\lbrack\\frac{a}{3}x^{3}{\\rbrack_{0}}^{3} = 18a = 36$에서
-                        $\\displaystyle a = 2$이다.
-                    </div>
+$\displaystyle E(X)$$\displaystyle = ( - 3) \times \frac{1}{2} + 0 \times \frac{1}{4} + a \times \frac{1}{4}$$\displaystyle = - \frac{3}{2} + \frac{a}{4}$
+</div>
+<div class="math-display">
+$\displaystyle - \frac{3}{2} + \frac{a}{4}$$\displaystyle - 1$에서
+$\displaystyle a$$\displaystyle = 2$
+</div>
+<div class="math-display">
+$\displaystyle V(X)$$\displaystyle = ( - 3 + 1)^{2} \times \frac{1}{2} + (0 + 1)^{2} \times \frac{1}{4} + (2 + 1)^{2} \times \frac{1}{4}$$\displaystyle = \frac{9}{2}$
+</div>
+<div class="math-display">
+따라서
+$\displaystyle 2V(X)$$\displaystyle = 2^{2} \times V(X)$$\displaystyle = 4 \times \frac{9}{2}$$\displaystyle = 18$
+</div>
                 `
             },
             '2': {
@@ -604,3 +581,4 @@
     </script>
 </body>
 </html>
+
