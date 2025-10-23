@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>개새기 통계 해설웹</title>
+    <title>수학 해설지</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,8 +24,8 @@
             }
         };
     </script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     
     <style>
@@ -38,6 +38,11 @@
             --color-lighter: #fafafa;
             --color-accent: #c9a96e;
             --color-accent-light: #d4b87a;
+                
+                /* Glass Design Variables */
+                --glass-bg: rgba(255, 255, 255, 0.1);
+                --border-color: rgba(255, 255, 255, 0.2);
+                --shadow-primary: 0 8px 32px rgba(0, 0, 0, 0.1);
             
             /* Typography */
             --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -77,52 +82,54 @@
 
         body {
             font-family: var(--font-primary);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+                background-size: 400% 400%;
+                animation: gradientShift 15s ease infinite;
             min-height: 100vh;
             color: var(--color-primary);
             line-height: 1.6;
             font-size: 16px;
             scroll-behavior: smooth;
-            position: relative;
-            overflow-x: hidden;
-        }
+                position: relative;
+                overflow-x: hidden;
+                margin: 0;
+                padding: 0;
+            }
 
-        /* 애니메이션 배경 */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
-            animation: particleFloat 20s ease-in-out infinite;
-            z-index: -2;
-        }
+            /* 애니메이션 배경 */
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: 
+                    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+                animation: particleFloat 20s ease-in-out infinite;
+                z-index: -2;
+            }
 
-        /* 파티클 효과 */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.3), transparent),
-                radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.2), transparent),
-                radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.4), transparent),
-                radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.3), transparent),
-                radial-gradient(2px 2px at 160px 30px, rgba(255, 255, 255, 0.2), transparent);
-            background-repeat: repeat;
-            background-size: 200px 100px;
-            animation: particleMove 30s linear infinite;
-            z-index: -1;
+            /* 파티클 효과 */
+            body::after {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: 
+                    radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.3), transparent),
+                    radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.2), transparent),
+                    radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.4), transparent),
+                    radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.3), transparent),
+                    radial-gradient(2px 2px at 160px 30px, rgba(255, 255, 255, 0.2), transparent);
+                background-repeat: repeat;
+                background-size: 200px 100px;
+                animation: particleMove 30s linear infinite;
+                z-index: -1;
         }
 
         /* Reduced motion support */
@@ -138,14 +145,20 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: var(--space-lg);
-            animation: fadeInUp 0.8s ease-out;
+            animation: fadeInUp 0.8s ease-out 5.5s both;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                box-sizing: border-box;
+                opacity: 0;
         }
 
         .header {
             text-align: center;
             margin-bottom: var(--space-2xl);
             color: var(--color-primary);
-            animation: fadeInUp 0.8s ease-out 0.2s both;
+            animation: fadeInUp 0.8s ease-out 5.7s both;
         }
 
         .header h1 {
@@ -155,218 +168,207 @@
             margin-bottom: var(--space-sm);
             letter-spacing: -0.02em;
             line-height: 1.2;
-            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #e0f2fe 100%);
+                background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #e0f2fe 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: glow 3s ease-in-out infinite, fadeInUp 1s ease-out 0.5s both;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            position: relative;
+                animation: glow 3s ease-in-out infinite, fadeInUp 1s ease-out 6s both;
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+                position: relative;
         }
 
-        .header h1::before {
-            content: '📚';
-            position: absolute;
-            left: -60px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 2rem;
-            animation: float 2s ease-in-out infinite, pulse 1.5s ease-in-out infinite;
+            .header h1::before {
+                content: '📚';
+                position: absolute;
+                left: -60px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 2rem;
+                animation: float 2s ease-in-out infinite, pulse 1.5s ease-in-out infinite;
         }
 
         .header p {
             font-size: 1.125rem;
-            color: rgba(255, 255, 255, 0.9);
+                color: rgba(255, 255, 255, 0.9);
             font-weight: 400;
             letter-spacing: 0.01em;
-            animation: fadeInUp 1s ease-out 0.8s both;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                animation: fadeInUp 1s ease-out 6.3s both;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .main-content {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-radius: var(--radius-lg);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.1),
-                0 0 0 1px rgba(255, 255, 255, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+
+
+            .problem-selector {
+                max-width: 700px;
+                width: 90%;
+                margin: 2rem auto;
+                background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+                border: 1px solid var(--border-color);
+                border-radius: 24px;
+                padding: 3rem;
+                text-decoration: none;
+                color: inherit;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                position: relative;
             overflow: hidden;
-            min-height: 80vh;
-            animation: fadeInUp 0.8s ease-out 0.4s both;
-            transition: all var(--transition-normal);
-            position: relative;
-        }
+                box-shadow: var(--shadow-primary);
+                animation: fadeInUp 0.8s ease-out 6.6s both;
+            }
 
-        .main-content::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-        }
+            .problem-selector::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            }
 
-        .main-content:hover {
-            transform: translateY(-8px) rotateX(2deg);
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.2),
-                0 0 0 1px rgba(255, 255, 255, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-        }
+            .problem-selector::after {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+                animation: float 6s ease-in-out infinite;
+                pointer-events: none;
+            }
 
-        .problem-selector-section {
-            padding: var(--space-2xl);
+            @keyframes float {
+                0%, 100% { transform: translateY(0px) rotate(0deg); }
+                50% { transform: translateY(-20px) rotate(180deg); }
+            }
+
+            .problem-selector:hover {
+                transform: translateY(-12px) scale(1.02);
+                box-shadow: 
+                    0 30px 60px rgba(0, 0, 0, 0.3),
+                    0 0 0 1px rgba(255, 255, 255, 0.4),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+                border-color: rgba(255, 255, 255, 0.4);
+            }
+
+            .problem-selector:hover::after {
+                animation-duration: 3s;
+            }
+
+            .selector-group {
+                margin-bottom: var(--space-xl);
+            }
+
+            .selector-label {
+                display: block;
+                margin-bottom: 1.5rem;
+                color: white;
+                font-size: 1.5rem;
+                font-weight: 700;
+                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             text-align: center;
-            background: linear-gradient(135deg, rgba(248, 249, 250, 0.8) 0%, rgba(233, 236, 239, 0.6) 100%);
-            animation: fadeInUp 0.8s ease-out 0.6s both;
-        }
+                letter-spacing: 0.5px;
+            }
 
-        .problem-selector {
-            max-width: 500px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-radius: var(--radius-lg);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.1),
-                0 0 0 1px rgba(255, 255, 255, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            padding: var(--space-2xl);
-            transition: all var(--transition-normal);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .problem-selector::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-        }
-
-        .problem-selector:hover {
-            transform: translateY(-8px) rotateX(3deg) rotateY(2deg);
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.2),
-                0 0 0 1px rgba(255, 255, 255, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-        }
-
-        .selector-group {
-            margin-bottom: var(--space-xl);
-        }
-
-        .selector-label {
-            display: block;
-            margin-bottom: var(--space-md);
-            color: blac;
-            font-size: 1.25rem;
-            font-weight: 500;
-            letter-spacing: 0.01em;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .problem-dropdown {
+            .problem-dropdown {
             width: 100%;
-            padding: var(--space-lg) var(--space-xl);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: var(--radius-md);
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            font-size: 1.125rem;
-            color: #1a1a1a;
-            cursor: pointer;
-            transition: all var(--transition-normal);
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a1a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right var(--space-lg) center;
-            background-size: 20px;
-            padding-right: calc(var(--space-xl) + 20px);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
+                padding: 1.2rem 1.5rem;
+                border: 2px solid rgba(255, 255, 255, 0.3);
+                border-radius: 16px;
+                background: rgba(255, 255, 255, 0.9);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                font-size: 1.25rem;
+                color: #1a1a1a;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                appearance: none;
+                background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a1a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+                background-repeat: no-repeat;
+                background-position: right 1.5rem center;
+                background-size: 1.5rem;
+                padding-right: 3.5rem;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
 
-        .problem-dropdown:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 
-                0 0 0 3px rgba(102, 126, 234, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        }
+            .problem-dropdown:focus {
+                outline: none;
+                border-color: #667eea;
+                box-shadow: 
+                    0 0 0 3px rgba(102, 126, 234, 0.2),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            }
 
-        .problem-dropdown:hover {
-            border-color: #667eea;
-            background: rgba(255, 255, 255, 1);
-            transform: translateY(-2px);
-        }
+            .problem-dropdown:hover {
+                border-color: #667eea;
+                background: rgba(255, 255, 255, 1);
+                color: #1a1a1a;
+                transform: translateY(-2px);
+            }
 
-        .view-solution-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: var(--space-lg) var(--space-2xl);
-            border-radius: var(--radius-xl);
-            font-size: 1.125rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all var(--transition-normal);
-            box-shadow: 
-                0 8px 25px rgba(102, 126, 234, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            position: relative;
+            .view-solution-btn {
+                background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(20, 20, 20, 0.9) 100%);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                color: white;
+                border: 2px solid rgba(255, 255, 255, 0.3);
+                padding: 1.5rem 3rem;
+                border-radius: 20px;
+                font-size: 1.3rem;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+                position: relative;
             overflow: hidden;
-            letter-spacing: 0.01em;
-            min-width: 200px;
-        }
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                width: 100%;
+                margin-top: 1rem;
+                min-width: 200px;
+            }
 
-        .view-solution-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left var(--transition-slow);
-        }
+            .view-solution-btn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                transition: left var(--transition-slow);
+            }
 
-        .view-solution-btn:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 
-                0 15px 35px rgba(102, 126, 234, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-        }
+            .view-solution-btn:hover {
+                transform: translateY(-5px) scale(1.02);
+                box-shadow: 
+                    0 15px 35px rgba(0, 0, 0, 0.2),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.2) 100%);
+                border-color: rgba(255, 255, 255, 0.5);
+            }
 
-        .view-solution-btn:hover::before {
-            left: 100%;
-        }
+            .view-solution-btn:hover::before {
+                left: 100%;
+            }
 
-        .view-solution-btn:active {
-            transform: translateY(-2px) scale(0.98);
-            box-shadow: 
-                0 5px 15px rgba(102, 126, 234, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
+            .view-solution-btn:active {
+                transform: translateY(-2px) scale(0.98);
+                box-shadow: 
+                    0 5px 15px rgba(102, 126, 234, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            }
 
-        .view-solution-btn:disabled {
-            background: var(--color-secondary);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: var(--shadow-sm);
-        }
+            .view-solution-btn:disabled {
+                background: var(--color-secondary);
+                cursor: not-allowed;
+                transform: none;
+                box-shadow: var(--shadow-sm);
+            }
 
-        .selector-instructions {
+            .selector-instructions {
             margin-top: var(--space-lg);
             color: var(--color-secondary);
             font-size: 1.125rem;
@@ -375,33 +377,107 @@
             line-height: 1.6;
         }
 
+            /* 모달 오버레이 */
+            .modal-overlay {
+                position: fixed;
+                inset: 0;
+                display: none;
+                justify-content: center;
+                align-items: flex-start;
+                padding-top: 4vh;
+                z-index: 1000;
+                background: transparent;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
+
+            .modal-overlay.show {
+                display: flex;
+                /* 모달이 표시될 때만 블러 효과 적용 */
+                background: radial-gradient(
+                    circle at 30% 30%,
+                    rgba(150, 130, 255, 0.25),
+                    rgba(90, 60, 150, 0.5),
+                    rgba(30, 20, 60, 0.85)
+                );
+                backdrop-filter: blur(30px) saturate(180%);
+                -webkit-backdrop-filter: blur(30px) saturate(180%);
+                animation: overlayFadeIn 0.6s ease-out forwards;
+            }
+
+            .modal-overlay.show::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(
+                    circle at 60% 40%, 
+                    rgba(255, 200, 255, 0.1), 
+                    transparent 70%
+                );
+                filter: blur(80px);
+                z-index: -1;
+                animation: glowPulse 6s ease-in-out infinite alternate;
+            }
+
+            @keyframes glowPulse {
+                from { opacity: 0.5; transform: scale(1); }
+                to { opacity: 0.9; transform: scale(1.1); }
+        }
+
         .solution-section {
-            padding: var(--space-2xl);
+                background: linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.2) 0%,
+                    rgba(220, 190, 255, 0.15) 100%
+                );
+                backdrop-filter: blur(40px) brightness(1.1);
+                -webkit-backdrop-filter: blur(40px) brightness(1.1);
+                border: 1px solid rgba(255, 255, 255, 0.25);
+                border-radius: 24px;
+                box-shadow:
+                    0 20px 40px rgba(90, 60, 150, 0.4),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+                animation: modalPop 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+                width: 98%;
+                max-width: 1200px;
+                height: 95vh;
+                max-height: 95vh;
+                overflow: hidden;
+                position: relative;
             display: none;
-            animation: fadeInUp 0.6s ease-out;
+                margin-top: 0;
+                top: 0;
+            }
+
+            .solution-section.show {
+                display: flex;
+                flex-direction: column;
         }
 
         .solution-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
             color: white;
             padding: var(--space-xl);
-            margin: 0 0 var(--space-xl) 0;
-            border-radius: var(--radius-lg);
-            box-shadow: 
-                0 8px 32px rgba(102, 126, 234, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
+                margin: 0 0 var(--space-xl) 0;
+                border-radius: var(--radius-lg);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 
+                    0 8px 32px rgba(0, 0, 0, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+                position: relative;
+                overflow: hidden;
+            }
 
-        .solution-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            .solution-header::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
         }
 
         .solution-header h2 {
@@ -486,64 +562,63 @@
             background: var(--color-accent-light);
         }
 
-        .solution-navigation {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--space-md);
-            align-items: center;
-            margin-bottom: var(--space-2xl);
-            padding: var(--space-lg);
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: var(--radius-lg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-        }
+            .solution-navigation {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: var(--space-md);
+                padding: var(--space-sm);
+                background: rgba(255, 255, 255, 0.08);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-radius: var(--radius-md);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            }
 
-        .solution-dropdown-wrapper {
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            flex: 1;
-            min-width: 250px;
-        }
+            .solution-dropdown-wrapper {
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+                min-width: 250px;
+            }
 
-        .solution-dropdown-label {
-            color: white;
-            font-size: 1rem;
-            font-weight: 500;
-            white-space: nowrap;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
+            .solution-dropdown-label {
+                color: white;
+                font-size: 1rem;
+                font-weight: 500;
+                white-space: nowrap;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            }
 
-        .solution-problem-dropdown {
-            flex: 1;
-            padding: var(--space-md) var(--space-lg);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: var(--radius-md);
-            background: rgba(255, 255, 255, 0.9);
-            font-size: 1rem;
-            color: #1a1a1a;
-            cursor: pointer;
-            transition: all var(--transition-normal);
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a1a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right var(--space-md) center;
-            background-size: 18px;
-            padding-right: calc(var(--space-lg) + 18px);
-        }
+            .solution-problem-dropdown {
+                width: 200px;
+                max-width: 200px;
+                padding: var(--space-md) var(--space-lg);
+                border: 2px solid rgba(255, 255, 255, 0.3);
+                border-radius: var(--radius-md);
+                background: rgba(255, 255, 255, 0.9);
+                font-size: 1rem;
+                color: #1a1a1a;
+                cursor: pointer;
+                transition: all var(--transition-normal);
+                appearance: none;
+                background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a1a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+                background-repeat: no-repeat;
+                background-position: right var(--space-md) center;
+                background-size: 18px;
+                padding-right: calc(var(--space-lg) + 18px);
+            }
 
-        .solution-problem-dropdown:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
-        }
+            .solution-problem-dropdown:focus {
+                outline: none;
+                border-color: #667eea;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+            }
 
-        .solution-problem-dropdown:hover {
-            border-color: #667eea;
-            background: rgba(255, 255, 255, 1);
+            .solution-problem-dropdown:hover {
+                border-color: #667eea;
+                background: rgba(255, 255, 255, 1);
         }
 
         .back-button {
@@ -560,7 +635,7 @@
             position: relative;
             overflow: hidden;
             letter-spacing: 0.01em;
-            white-space: nowrap;
+                white-space: nowrap;
         }
 
         .back-button::before {
@@ -620,85 +695,85 @@
             100% {
                 transform: translateX(100%);
             }
-        }
+            }
 
-        @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
+            @keyframes gradientShift {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
             }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
 
-        @keyframes particleFloat {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg);
-                opacity: 0.7;
+            @keyframes particleFloat {
+                0%, 100% {
+                    transform: translateY(0px) rotate(0deg);
+                    opacity: 0.7;
+                }
+                33% {
+                    transform: translateY(-20px) rotate(120deg);
+                    opacity: 0.9;
+                }
+                66% {
+                    transform: translateY(10px) rotate(240deg);
+                    opacity: 0.5;
+                }
             }
-            33% {
-                transform: translateY(-20px) rotate(120deg);
-                opacity: 0.9;
-            }
-            66% {
-                transform: translateY(10px) rotate(240deg);
-                opacity: 0.5;
-            }
-        }
 
-        @keyframes particleMove {
-            0% {
-                transform: translateX(0);
+            @keyframes particleMove {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(-200px);
+                }
             }
-            100% {
-                transform: translateX(-200px);
-            }
-        }
 
-        @keyframes glow {
-            0%, 100% {
-                text-shadow: 0 0 5px rgba(255, 255, 255, 0.5),
-                           0 0 10px rgba(255, 255, 255, 0.3),
-                           0 0 15px rgba(255, 255, 255, 0.2);
+            @keyframes glow {
+                0%, 100% {
+                    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5),
+                            0 0 10px rgba(255, 255, 255, 0.3),
+                            0 0 15px rgba(255, 255, 255, 0.2);
+                }
+                50% {
+                    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                            0 0 20px rgba(255, 255, 255, 0.6),
+                            0 0 30px rgba(255, 255, 255, 0.4);
+                }
             }
-            50% {
-                text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
-                           0 0 20px rgba(255, 255, 255, 0.6),
-                           0 0 30px rgba(255, 255, 255, 0.4);
-            }
-        }
 
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
+            @keyframes float {
+                0%, 100% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
             }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
 
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
+            @keyframes pulse {
+                0%, 100% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.05);
+                }
             }
-            50% {
-                transform: scale(1.05);
-            }
-        }
 
-        @keyframes ripple {
-            0% {
-                transform: scale(0);
-                opacity: 1;
+            @keyframes ripple {
+                0% {
+                    transform: scale(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: scale(4);
+                    opacity: 0;
+                }
             }
-            100% {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
 
         .ripple {
             position: absolute;
@@ -707,6 +782,257 @@
             transform: scale(0);
             animation: ripple 0.6s linear;
             pointer-events: none;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #667eea;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+
+            @keyframes overlayFadeIn {
+                from {
+                    opacity: 0;
+                    filter: blur(8px);
+                }
+                to {
+                    opacity: 1;
+                    filter: blur(0);
+                }
+            }
+
+            @keyframes modalSlideIn {
+                from { 
+                    opacity: 0;
+                    transform: scale(0.8) translateY(-20px);
+                }
+                to { 
+                    opacity: 1;
+                    transform: scale(1) translateY(0);
+                }
+            }
+
+            @keyframes modalPop {
+                from {
+                    opacity: 0;
+                    transform: translateY(40px) scale(0.96);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+
+        .loading-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            padding: var(--space-xl);
+            color: white;
+            font-size: 1.125rem;
+        }
+
+        .error-message {
+            text-align: center;
+            padding: var(--space-xl);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            color: white;
+        }
+
+        .error-message h3 {
+            color: #ff6b6b;
+            margin-bottom: var(--space-md);
+        }
+
+        .error-message p {
+            margin-bottom: var(--space-sm);
+            opacity: 0.9;
+        }
+
+        /* 수식 표시 영역 스타일링 */
+        .math-display {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: var(--space-xl);
+            border-radius: var(--radius-md);
+            margin: var(--space-lg) 0;
+            border-left: 4px solid var(--color-accent);
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all var(--transition-normal);
+            overflow-x: auto;
+            overflow-y: hidden;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        .math-display:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+            border-left-color: var(--color-accent-light);
+        }
+
+        /* 수학 공식 가로 스크롤 지원 */
+        .math-display .MathJax {
+            overflow-x: auto;
+            overflow-y: hidden;
+            max-width: 100%;
+            color: #1a1a1a !important;
+        }
+
+        /* MathJax 수식 색상 강제 설정 */
+        .math-display .MathJax_Display,
+        .math-display .MathJax_SVG,
+        .math-display .MathJax_MathML {
+            color: #1a1a1a !important;
+            fill: #1a1a1a !important;
+        }
+
+        .math-display mjx-container {
+            color: #1a1a1a !important;
+        }
+
+        .math-display mjx-container mjx-math {
+            color: #1a1a1a !important;
+        }
+
+        /* 긴 수식에 대한 스크롤바 스타일링 */
+        .math-display::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .math-display::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+
+        .math-display::-webkit-scrollbar-thumb {
+            background: var(--color-accent);
+            border-radius: 3px;
+        }
+
+        .math-display::-webkit-scrollbar-thumb:hover {
+            background: var(--color-accent-light);
+        }
+
+        /* 해설 텍스트 스타일링 */
+        .solution-content {
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.95);
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: var(--space-lg);
+            margin: 0;
+        }
+
+        .solution-content p {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            padding: var(--space-lg);
+            border-radius: var(--radius-md);
+            margin: var(--space-md) 0;
+            border-left: 3px solid rgba(102, 126, 234, 0.6);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all var(--transition-normal);
+            font-size: 1.1rem;
+        }
+
+        .solution-content p:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateX(2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-left-color: rgba(102, 126, 234, 0.8);
+        }
+
+        .solution-content h1, .solution-content h2, .solution-content h3 {
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            margin: var(--space-xl) 0 var(--space-lg) 0;
+            font-weight: 600;
+        }
+
+        .solution-content h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .solution-content h2 {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .solution-content h3 {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* 강조 텍스트 */
+        .solution-content strong {
+            color: rgba(102, 126, 234, 0.9);
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 인라인 수식 (math-display가 아닌) */
+        .solution-content .MathJax {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* MathJax 전역 색상 설정 */
+        .MathJax_Display,
+        .MathJax_SVG,
+        .MathJax_MathML {
+            color: #1a1a1a !important;
+        }
+
+        mjx-container {
+            color: #1a1a1a !important;
+        }
+
+        mjx-container mjx-math {
+            color: #1a1a1a !important;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
         }
 
         /* 태블릿 최적화 */
@@ -719,33 +1045,29 @@
                 font-size: clamp(2rem, 8vw, 3rem);
             }
             
-            .main-content {
-                border-radius: var(--radius-md);
-            }
             
-            .problem-selector-section,
             .solution-section {
                 padding: var(--space-lg);
             }
-            
-            .solution-navigation {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .solution-dropdown-wrapper {
-                flex-direction: column;
-                align-items: stretch;
-                min-width: 100%;
-            }
-            
-            .solution-dropdown-label {
-                text-align: left;
-            }
-            
-            .back-button {
-                width: 100%;
-                text-align: center;
+                
+                .solution-navigation {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+                
+                .solution-dropdown-wrapper {
+                    flex-direction: column;
+                    align-items: stretch;
+                    min-width: 100%;
+                }
+                
+                .solution-dropdown-label {
+                    text-align: left;
+                }
+                
+                .back-button {
+                    width: 100%;
+                    text-align: center;
             }
             
             .solution-header {
@@ -779,12 +1101,118 @@
                 min-height: 56px;
             }
             
-            .main-content:hover {
+            
+                .problem-selector:hover {
                 transform: none;
             }
-            
-            .problem-selector:hover {
-                transform: none;
+        }
+
+        /* === 🪄 인트로 스크린 === */
+        #intro-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at 50% 50%, #2d1a4a 0%, #1a0b2e 100%);
+            overflow: hidden;
+            animation: fadeOutIntro 2s ease 4.5s forwards;
+        }
+
+        .intro-overlay {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(180,130,255,0.25), transparent 70%),
+                radial-gradient(circle at 70% 60%, rgba(255,180,255,0.15), transparent 80%);
+            filter: blur(40px);
+            animation: auroraFlow 8s ease-in-out infinite alternate;
+        }
+
+        /* 🌟 별빛 입자 */
+        .intro-stars {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .intro-stars::before,
+        .intro-stars::after {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image:
+                radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 80% 40%, rgba(255,255,255,0.7), transparent),
+                radial-gradient(1.5px 1.5px at 60% 10%, rgba(255,255,255,0.5), transparent),
+                radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,0.7), transparent);
+            background-repeat: repeat;
+            background-size: 400px 400px;
+            animation: starDrift 20s linear infinite;
+            opacity: 0.6;
+        }
+
+        .intro-stars::after {
+            animation-delay: -10s;
+            opacity: 0.4;
+        }
+
+        @keyframes starDrift {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-400px); }
+        }
+
+        .intro-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            font-family: 'Playfair Display', serif;
+            text-shadow: 0 0 20px rgba(255, 230, 255, 0.5);
+            animation: fadeInText 2s ease-in forwards;
+        }
+
+        .intro-content h1 {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            opacity: 0.95;
+            background: linear-gradient(120deg, #c084fc 0%, #a78bfa 50%, #f0abfc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 오로라 흐름 */
+        @keyframes auroraFlow {
+            0% {
+                transform: translateX(0) translateY(0) scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateX(20px) translateY(-20px) scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-20px) translateY(10px) scale(1);
+                opacity: 0.9;
+            }
+        }
+
+        /* 텍스트 등장 */
+        @keyframes fadeInText {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 인트로 전체 사라짐 */
+        @keyframes fadeOutIntro {
+            to {
+                opacity: 0;
+                visibility: hidden;
             }
         }
 
@@ -801,10 +1229,6 @@
                 background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #4a5568 100%);
             }
             
-            .main-content {
-                background: rgba(45, 55, 72, 0.95);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
             
             .solution-content {
                 color: var(--color-primary);
@@ -823,29 +1247,36 @@
     </style>
 </head>
 <body>
+    <!-- 🪄 인트로 스크린 -->
+    <div id="intro-screen">
+        <div class="intro-overlay"></div>
+        <div class="intro-stars"></div>
+        <div class="intro-content">
+            <h1>무엇이 궁금하여 또 왔는고?</h1>
+        </div>
+    </div>
+
     <div class="container">
         <div class="header">
-            <h1>개새기 통계 해설웹</h1>
-            <p>문항을 선택하여 해설을 확인하세요</p>
+                <h1>개새기 통계 해설웹</h1>
         </div>
         
-        <div class="main-content">
-            <div id="problem-selector-section" class="problem-selector-section">
-                <div class="problem-selector">
-                    <div class="selector-group">
-                        <label for="problem-select" class="selector-label">📝 몇 번 문제 해설이 궁금한가요?</label>
-                        <select id="problem-select" class="problem-dropdown">
-                            <option value="">문항을 선택하세요</option>
-                        </select>
-                    </div>
-                    <button id="view-solution-btn" class="view-solution-btn" disabled>해설 보기</button>
+            <div class="problem-selector">
+                <div class="selector-group">
+                    <label for="problem-select" class="selector-label">📝 몇 번 문제 해설이 궁금한가요?</label>
+                    <select id="problem-select" class="problem-dropdown">
+                        <option value="">문항을 선택하세요</option>
+                    </select>
                 </div>
-                <div class="selector-instructions">
+                <button id="view-solution-btn" class="view-solution-btn" disabled>해설 보기</button>
                 </div>
             </div>
+            
+        <!-- 모달 오버레이 -->
+        <div id="modal-overlay" class="modal-overlay">
             <div id="solution-section" class="solution-section">
                 <div class="solution-navigation">
-                    <button class="back-button" onclick="showSelector()">← 문항 선택으로 돌아가기</button>
+                    <button class="back-button" onclick="closeModal()">← 문항 선택으로 돌아가기</button>
                     <div class="solution-dropdown-wrapper">
                         <label for="solution-problem-select" class="solution-dropdown-label">다른 문항 보기:</label>
                         <select id="solution-problem-select" class="solution-problem-dropdown">
@@ -853,559 +1284,167 @@
                         </select>
                     </div>
                 </div>
-                <div class="solution-header">
-                    <h2 id="solution-title">해설</h2>
-                </div>
                 <div id="solution-content" class="solution-content">
                     <!-- 해설 내용이 여기에 표시됩니다 -->
-                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 해설 데이터 (실제 데이터로 교체하세요)
-        const solutions = {
-            '1': {
-                title: '문제 1번 해설',
-                content: `
-                    <div class="math-display">
-$\\displaystyle E(X)$$\\displaystyle = ( - 3) \\times \\frac{1}{2} + 0 \\times \\frac{1}{4} + a \\times \\frac{1}{4}$
-$\\displaystyle = - \\frac{3}{2} + \\frac{a}{4}$
+            // Markdown 파일 캐시
+            const markdownCache = new Map();
+
+            // Markdown 파일 로딩 함수
+            async function loadMarkdown(problemNumber) {
+                // 캐시에서 먼저 확인
+                if (markdownCache.has(problemNumber)) {
+                    return markdownCache.get(problemNumber);
+                }
+
+                try {
+                    const response = await fetch(`sol/${problemNumber}.md`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const markdown = await response.text();
+                    const html = marked.parse(markdown);
+                    
+                    // 캐시에 저장
+                    markdownCache.set(problemNumber, html);
+                    return html;
+                } catch (error) {
+                    console.error('Markdown 로딩 오류:', error);
+                    return `
+                        <div class="error-message">
+                            <h3>해설을 불러올 수 없습니다</h3>
+                            <p>문제 ${problemNumber}번의 해설 파일을 찾을 수 없습니다.</p>
+                            <p>오류: ${error.message}</p>
 </div>
-<div class="math-display">
-$\\displaystyle - \\frac{3}{2} + \\frac{a}{4}$
-$\\displaystyle - 1$에서 $\\displaystyle a$ $\\displaystyle = 2$
-</div>
-<div class="math-display">
-$\\displaystyle V(X)$$\\displaystyle = ( - 3 + 1)^{2} \\times \\frac{1}{2} + (0 + 1)^{2} \\times \\frac{1}{4} + (2 + 1)^{2} \\times \\frac{1}{4}$$\\displaystyle = \\frac{9}{2}$
-</div>
-<div class="math-display">
-따라서
-$\\displaystyle 2V(X)$ $\\displaystyle = 2^{2} \\times V(X)$$\\displaystyle = 4 \\times \\frac{9}{2}$$\\displaystyle = 18$
-</div>
-                `
-            },
-            '2': {
-                title: '문제 2번 해설',
-                content: `
-                    <p>샘플 해설입니다. 실제 해설 내용을 입력하세요.</p>
-                    <div class="math-display">
-                        $\\displaystyle \\lim_{x \\to 0} \\frac{\\sin x}{x} = 1$
-                    </div>
-                `
-            },
-            '3': {
-                title: '문제 3번 해설',
-                content: `
-                    <p>여기에 문제 3번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\int_0^1 x^2 dx = \\frac{1}{3}$
-                    </div>
-                `
-            },
-            '4': {
-                title: '문제 4번 해설',
-                content: `
-                    <p>여기에 문제 4번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\frac{d}{dx}(x^3) = 3x^2$
-                    </div>
-                `
-            },
-            '5': {
-                title: '문제 5번 해설',
-                content: `
-                    <p>여기에 문제 5번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\sum_{n=1}^{\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{6}$
-                    </div>
-                `
-            },
-            '6': {
-                title: '문제 6번 해설',
-                content: `
-                    <p>여기에 문제 6번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\lim_{n \\to \\infty} \\left(1 + \\frac{1}{n}\\right)^n = e$
-                    </div>
-                `
-            },
-            '7': {
-                title: '문제 7번 해설',
-                content: `
-                    <p>여기에 문제 7번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\sin^2 x + \\cos^2 x = 1$
-                    </div>
-                `
-            },
-            '8': {
-                title: '문제 8번 해설',
-                content: `
-                    <p>여기에 문제 8번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\log_a (xy) = \\log_a x + \\log_a y$
-                    </div>
-                `
-            },
-            '9': {
-                title: '문제 9번 해설',
-                content: `
-                    <p>여기에 문제 9번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\binom{n}{k} = \\frac{n!}{k!(n-k)!}$
-                    </div>
-                `
-            },
-            '10': {
-                title: '문제 10번 해설',
-                content: `
-                    <p>여기에 문제 10번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$
-                    </div>
-                `
-            },
-            '11': {
-                title: '문제 11번 해설',
-                content: `
-                    <p>여기에 문제 11번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\frac{\\partial f}{\\partial x} = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}$
-                    </div>
-                `
-            },
-            '12': {
-                title: '문제 12번 해설',
-                content: `
-                    <p>여기에 문제 12번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\nabla \\cdot \\vec{F} = \\frac{\\partial F_x}{\\partial x} + \\frac{\\partial F_y}{\\partial y} + \\frac{\\partial F_z}{\\partial z}$
-                    </div>
-                `
-            },
-            '13': {
-                title: '문제 13번 해설',
-                content: `
-                    <p>여기에 문제 13번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\oint_C \\vec{F} \\cdot d\\vec{r} = \\iint_S (\\nabla \\times \\vec{F}) \\cdot d\\vec{S}$
-                    </div>
-                `
-            },
-            '14': {
-                title: '문제 14번 해설',
-                content: `
-                    <p>여기에 문제 14번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\mathcal{L}\\{f(t)\\} = \\int_0^{\\infty} e^{-st} f(t) dt$
-                    </div>
-                `
-            },
-            '15': {
-                title: '문제 15번 해설',
-                content: `
-                    <p>여기에 문제 15번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\mathcal{F}\\{f(x)\\} = \\int_{-\\infty}^{\\infty} f(x) e^{-2\\pi i \\xi x} dx$
-                    </div>
-                `
-            },
-            '16': {
-                title: '문제 16번 해설',
-                content: `
-                    <p>여기에 문제 16번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\zeta(s) = \\sum_{n=1}^{\\infty} \\frac{1}{n^s}$
-                    </div>
-                `
-            },
-            '17': {
-                title: '문제 17번 해설',
-                content: `
-                    <p>여기에 문제 17번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\Gamma(z) = \\int_0^{\\infty} t^{z-1} e^{-t} dt$
-                    </div>
-                `
-            },
-            '18': {
-                title: '문제 18번 해설',
-                content: `
-                    <p>여기에 문제 18번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\beta(x,y) = \\int_0^1 t^{x-1}(1-t)^{y-1} dt$
-                    </div>
-                `
-            },
-            '19': {
-                title: '문제 19번 해설',
-                content: `
-                    <p>여기에 문제 19번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\int_0^{\\infty} \\frac{\\sin x}{x} dx = \\frac{\\pi}{2}$
-                    </div>
-                `
-            },
-            '20': {
-                title: '문제 20번 해설',
-                content: `
-                    <p>여기에 문제 20번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\prod_{n=1}^{\\infty} \\left(1 - \\frac{1}{p_n^2}\\right) = \\frac{6}{\\pi^2}$
-                    </div>
-                `
-            },
-            '21': {
-                title: '문제 21번 해설',
-                content: `
-                    <p>여기에 문제 21번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\sum_{k=0}^{n} \\binom{n}{k} = 2^n$
-                    </div>
-                `
-            },
-            '22': {
-                title: '문제 22번 해설',
-                content: `
-                    <p>여기에 문제 22번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\int_0^1 x^n (1-x)^m dx = \\frac{n! m!}{(n+m+1)!}$
-                    </div>
-                `
-            },
-            '23': {
-                title: '문제 23번 해설',
-                content: `
-                    <p>여기에 문제 23번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\lim_{n \\to \\infty} \\sqrt[n]{n!} = e$
-                    </div>
-                `
-            },
-            '24': {
-                title: '문제 24번 해설',
-                content: `
-                    <p>여기에 문제 24번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\sum_{n=1}^{\\infty} \\frac{(-1)^{n+1}}{n} = \\ln 2$
-                    </div>
-                `
-            },
-            '25': {
-                title: '문제 25번 해설',
-                content: `
-                    <p>여기에 문제 25번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\int_0^{\\infty} \\frac{x^{s-1}}{e^x - 1} dx = \\Gamma(s) \\zeta(s)$
-                    </div>
-                `
-            },
-            '26': {
-                title: '문제 26번 해설',
-                content: `
-                    <p>여기에 문제 26번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\frac{d^n}{dx^n} (x^n e^x) = e^x \\sum_{k=0}^n \\binom{n}{k} x^k$
-                    </div>
-                `
-            },
-            '27': {
-                title: '문제 27번 해설',
-                content: `
-                    <p>여기에 문제 27번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\int_{-\\infty}^{\\infty} \\frac{1}{1+x^2} dx = \\pi$
-                    </div>
-                `
-            },
-            '28': {
-                title: '문제 28번 해설',
-                content: `
-                    <p>여기에 문제 28번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\sum_{n=0}^{\\infty} \\frac{x^n}{n!} = e^x$
-                    </div>
-                `
-            },
-            '29': {
-                title: '문제 29번 해설',
-                content: `
-                    <p>여기에 문제 29번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\int_0^{\\pi} \\sin^n x dx = \\frac{\\sqrt{\\pi} \\Gamma\\left(\\frac{n+1}{2}\\right)}{\\Gamma\\left(\\frac{n+2}{2}\\right)}$
-                    </div>
-                `
-            },
-            '30': {
-                title: '문제 30번 해설',
-                content: `
-                    <p>여기에 문제 30번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\prod_{k=1}^{n} \\left(1 + \\frac{1}{k}\\right)^k = \\frac{(n+1)^n}{n!}$
-                    </div>
-                `
-            },
-            '31': {
-                title: '문제 31번 해설',
-                content: `
-                    <p>여기에 문제 31번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\lim_{x \\to 0} \\frac{\\tan x - x}{x^3} = \\frac{1}{3}$
-                    </div>
-                `
-            },
-            '32': {
-                title: '문제 32번 해설',
-                content: `
-                    <p>여기에 문제 32번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\int_0^{\\infty} \\frac{\\sin(ax)}{x} dx = \\frac{\\pi}{2} \\text{sgn}(a)$
-                    </div>
-                `
-            },
-            '33': {
-                title: '문제 33번 해설',
-                content: `
-                    <p>여기에 문제 33번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\sum_{k=0}^{\\infty} \\frac{1}{k^2 + a^2} = \\frac{\\pi}{2a} \\coth(\\pi a)$
-                    </div>
-                `
-            },
-            '34': {
-                title: '문제 34번 해설',
-                content: `
-                    <p>여기에 문제 34번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\int_0^1 \\frac{\\ln x}{1-x} dx = -\\frac{\\pi^2}{6}$
-                    </div>
-                `
-            },
-            '35': {
-                title: '문제 35번 해설',
-                content: `
-                    <p>여기에 문제 35번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\lim_{n \\to \\infty} \\frac{1}{n} \\sum_{k=1}^n \\ln k = \\ln n - 1$
-                    </div>
-                `
-            },
-            '36': {
-                title: '문제 36번 해설',
-                content: `
-                    <p>여기에 문제 36번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\int_0^{\\infty} \\frac{x^{s-1}}{1+x} dx = \\frac{\\pi}{\\sin(\\pi s)}$
-                    </div>
-                `
-            },
-            '37': {
-                title: '문제 37번 해설',
-                content: `
-                    <p>여기에 문제 37번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\sum_{n=1}^{\\infty} \\frac{\\mu(n)}{n^s} = \\frac{1}{\\zeta(s)}$
-                    </div>
-                `
-            },
-            '38': {
-                title: '문제 38번 해설',
-                content: `
-                    <p>여기에 문제 38번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\int_0^{\\infty} e^{-x^2} \\cos(2ax) dx = \\frac{\\sqrt{\\pi}}{2} e^{-a^2}$
-                    </div>
-                `
-            },
-            '39': {
-                title: '문제 39번 해설',
-                content: `
-                    <p>여기에 문제 39번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\prod_{n=1}^{\\infty} \\left(1 + \\frac{1}{n^2}\\right) = \\frac{\\sinh \\pi}{\\pi}$
-                    </div>
-                `
-            },
-            '40': {
-                title: '문제 40번 해설',
-                content: `
-                    <p>여기에 문제 40번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\int_0^{\\infty} \\frac{\\sin x}{x^p} dx = \\frac{\\pi}{2 \\Gamma(p) \\sin\\left(\\frac{\\pi p}{2}\\right)}$
-                    </div>
-                `
-            },
-            '41': {
-                title: '문제 41번 해설',
-                content: `
-                    <p>여기에 문제 41번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\sum_{n=1}^{\\infty} \\frac{\\phi(n)}{n^s} = \\frac{\\zeta(s-1)}{\\zeta(s)}$
-                    </div>
-                `
-            },
-            '42': {
-                title: '문제 42번 해설',
-                content: `
-                    <p>여기에 문제 42번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\int_0^1 \\frac{x^a - x^b}{\\ln x} dx = \\ln\\left(\\frac{b+1}{a+1}\\right)$
-                    </div>
-                `
-            },
-            '43': {
-                title: '문제 43번 해설',
-                content: `
-                    <p>여기에 문제 43번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\lim_{n \\to \\infty} \\frac{\\sqrt[n]{n!}}{n} = \\frac{1}{e}$
-                    </div>
-                `
-            },
-            '44': {
-                title: '문제 44번 해설',
-                content: `
-                    <p>여기에 문제 44번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\int_0^{\\infty} \\frac{\\ln x}{1+x^2} dx = 0$
-                    </div>
-                `
-            },
-            '45': {
-                title: '문제 45번 해설',
-                content: `
-                    <p>여기에 문제 45번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\sum_{n=1}^{\\infty} \\frac{\\sigma(n)}{n^s} = \\zeta(s) \\zeta(s-1)$
-                    </div>
-                `
-            },
-            '46': {
-                title: '문제 46번 해설',
-                content: `
-                    <p>여기에 문제 46번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\int_0^{\\infty} \\frac{x^{s-1}}{e^x + 1} dx = (1-2^{1-s}) \\Gamma(s) \\zeta(s)$
-                    </div>
-                `
-            },
-            '47': {
-                title: '문제 47번 해설',
-                content: `
-                    <p>여기에 문제 47번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\prod_{p \\text{ prime}} \\left(1 - \\frac{1}{p^s}\\right) = \\frac{1}{\\zeta(s)}$
-                    </div>
-                `
-            },
-            '48': {
-                title: '문제 48번 해설',
-                content: `
-                    <p>여기에 문제 48번의 해설을 입력하세요.</p>
-                    <div class="math-display">
-                        수식 예시: $\\displaystyle \\int_0^{\\infty} \\frac{\\sin(ax) \\sin(bx)}{x^2} dx = \\frac{\\pi}{2} \\min(a,b)$
-                    </div>
-                `
-            }
-        };
-
-        // 드롭다운 옵션 생성
-        function populateDropdown() {
-            const select = document.getElementById('problem-select');
-            
-            for (let i = 1; i <= 48; i++) {
-                const option = document.createElement('option');
-                option.value = i.toString();
-                option.textContent = `${i}번 문제`;
-                select.appendChild(option);
-            }
-        }
-
-        // 해설 페이지 드롭다운 옵션 생성
-        function populateSolutionDropdown() {
-            const select = document.getElementById('solution-problem-select');
-            
-            // 기존 옵션 제거 (첫 번째 옵션 제외)
-            while (select.options.length > 1) {
-                select.remove(1);
-            }
-            
-            for (let i = 1; i <= 48; i++) {
-                const option = document.createElement('option');
-                option.value = i.toString();
-                option.textContent = `${i}번 문제`;
-                select.appendChild(option);
-            }
-        }
-
-        // 드롭다운 선택 이벤트 핸들러
-        function handleProblemSelection() {
-            const select = document.getElementById('problem-select');
-            const viewBtn = document.getElementById('view-solution-btn');
-            
-            if (select.value) {
-                viewBtn.disabled = false;
-            } else {
-                viewBtn.disabled = true;
-            }
-        }
-
-        // 해설 보기 버튼 클릭 핸들러
-        function viewSolution() {
-            const select = document.getElementById('problem-select');
-            const problemNumber = select.value;
-            
-            if (problemNumber && solutions[problemNumber]) {
-                showSolution(problemNumber);
-            } else {
-                showError('해당 문제의 해설을 찾을 수 없습니다.');
-            }
-        }
-
-        // 해설 표시
-        function showSolution(problemNumber) {
-            const solution = solutions[problemNumber];
-            
-            document.getElementById('problem-selector-section').style.display = 'none';
-            document.getElementById('solution-section').style.display = 'block';
-            document.getElementById('solution-title').textContent = solution.title;
-            document.getElementById('solution-content').innerHTML = solution.content;
-            
-            // 해설 페이지 드롭다운의 값을 현재 문항으로 설정
-            const solutionSelect = document.getElementById('solution-problem-select');
-            solutionSelect.value = problemNumber;
-            
-            // MathJax 재렌더링
-            if (window.MathJax) {
-                MathJax.typesetPromise();
-            }
-        }
-
-        // 해설 페이지 드롭다운 선택 이벤트 핸들러
-        function handleSolutionDropdownChange() {
-            const select = document.getElementById('solution-problem-select');
-            const problemNumber = select.value;
-            
-            if (problemNumber && solutions[problemNumber]) {
-                // 해설 내용 업데이트
-                const solution = solutions[problemNumber];
-                document.getElementById('solution-title').textContent = solution.title;
-                document.getElementById('solution-content').innerHTML = solution.content;
-                
-                // MathJax 재렌더링
-                if (window.MathJax) {
-                    MathJax.typesetPromise();
+                    `;
                 }
             }
-        }
 
-        // 문항 선택으로 돌아가기
-        function showSelector() {
-            document.getElementById('solution-section').style.display = 'none';
-            document.getElementById('problem-selector-section').style.display = 'block';
-        }
+            // 드롭다운 옵션 생성
+            function populateDropdown() {
+                const select = document.getElementById('problem-select');
+                
+                for (let i = 1; i <= 48; i++) {
+                    const option = document.createElement('option');
+                    option.value = i.toString();
+                    option.textContent = `${i}번 문제`;
+                    select.appendChild(option);
+                }
+            }
+
+            // 해설 페이지 드롭다운 옵션 생성
+            function populateSolutionDropdown() {
+                const select = document.getElementById('solution-problem-select');
+                
+                // 기존 옵션 제거 (첫 번째 옵션 제외)
+                while (select.options.length > 1) {
+                    select.remove(1);
+                }
+                
+                for (let i = 1; i <= 48; i++) {
+                    const option = document.createElement('option');
+                    option.value = i.toString();
+                    option.textContent = `${i}번 문제`;
+                    select.appendChild(option);
+                }
+            }
+
+            // 드롭다운 선택 이벤트 핸들러
+            function handleProblemSelection() {
+                const select = document.getElementById('problem-select');
+                const viewBtn = document.getElementById('view-solution-btn');
+                
+                if (select.value) {
+                    viewBtn.disabled = false;
+            } else {
+                    viewBtn.disabled = true;
+                }
+            }
+
+            // 해설 보기 버튼 클릭 핸들러
+            function viewSolution() {
+                const select = document.getElementById('problem-select');
+                const problemNumber = select.value;
+                
+                if (problemNumber) {
+                    showSolution(problemNumber);
+                } else {
+                    showError('문항을 선택해주세요.');
+                }
+            }
+
+            // 해설 표시 (비동기)
+            async function showSolution(problemNumber) {
+                // 모달 오버레이 표시
+                const modalOverlay = document.getElementById('modal-overlay');
+                const solutionSection = document.getElementById('solution-section');
+                
+                modalOverlay.classList.add('show');
+                solutionSection.classList.add('show');
+                
+                // 로딩 상태 표시
+                const solutionContent = document.getElementById('solution-content');
+                solutionContent.innerHTML = `
+                    <div class="loading-container">
+                        <div class="loading-spinner"></div>
+                        <span>해설을 불러오는 중...</span>
+                    </div>
+                `;
+                
+                
+                // 해설 페이지 드롭다운의 값을 현재 문항으로 설정
+                const solutionSelect = document.getElementById('solution-problem-select');
+                solutionSelect.value = problemNumber;
+                
+                try {
+                    // Markdown 파일 로드
+                    const html = await loadMarkdown(problemNumber);
+                    
+                    // 해설 내용 업데이트
+                    solutionContent.innerHTML = html;
+                    
+                    // MathJax 렌더링
+                    await MathJax.typesetPromise([solutionSection]);
+                    console.log('MathJax 렌더링 완료');
+                } catch (error) {
+                    console.error('해설 로딩 오류:', error);
+                    solutionContent.innerHTML = `
+                        <div class="error-message">
+                            <h3>해설을 불러올 수 없습니다</h3>
+                            <p>문제 ${problemNumber}번의 해설을 불러오는 중 오류가 발생했습니다.</p>
+                            <p>오류: ${error.message}</p>
+                        </div>
+                    `;
+                }
+            }
+
+            // 해설 페이지 드롭다운 선택 이벤트 핸들러
+            function handleSolutionDropdownChange() {
+                const select = document.getElementById('solution-problem-select');
+                const problemNumber = select.value;
+                
+                if (problemNumber) {
+                    showSolution(problemNumber);
+                }
+            }
+
+            // 모달 닫기
+            function closeModal() {
+                const modalOverlay = document.getElementById('modal-overlay');
+                const solutionSection = document.getElementById('solution-section');
+                
+                modalOverlay.classList.remove('show');
+                solutionSection.classList.remove('show');
+            }
+
+            // 문항 선택으로 돌아가기
+            function showSelector() {
+                closeModal();
+            }
 
         // 에러 메시지 표시
         function showError(message) {
@@ -1413,8 +1452,8 @@ $\\displaystyle 2V(X)$ $\\displaystyle = 2^{2} \\times V(X)$$\\displaystyle = 4 
             errorDiv.className = 'error-message';
             errorDiv.textContent = message;
             
-            const selectorSection = document.getElementById('problem-selector-section');
-            selectorSection.appendChild(errorDiv);
+                const selectorSection = document.querySelector('.problem-selector');
+                selectorSection.appendChild(errorDiv);
             
             setTimeout(() => {
                 if (errorDiv.parentNode) {
@@ -1423,44 +1462,74 @@ $\\displaystyle 2V(X)$ $\\displaystyle = 2^{2} \\times V(X)$$\\displaystyle = 4 
             }, 3000);
         }
 
-        // 리플 효과 함수
-        function createRipple(event) {
-            const button = event.currentTarget;
-            const circle = document.createElement('span');
-            const diameter = Math.max(button.clientWidth, button.clientHeight);
-            const radius = diameter / 2;
+            // 리플 효과 함수
+            function createRipple(event) {
+                const button = event.currentTarget;
+                const circle = document.createElement('span');
+                const diameter = Math.max(button.clientWidth, button.clientHeight);
+                const radius = diameter / 2;
 
-            circle.style.width = circle.style.height = `${diameter}px`;
-            circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
-            circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
-            circle.classList.add('ripple');
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+                circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+                circle.classList.add('ripple');
 
-            const ripple = button.getElementsByClassName('ripple')[0];
-            if (ripple) {
-                ripple.remove();
+                const ripple = button.getElementsByClassName('ripple')[0];
+                if (ripple) {
+                    ripple.remove();
+                }
+
+                button.appendChild(circle);
             }
 
-            button.appendChild(circle);
-        }
-
-        // 페이지 로드 시 드롭다운 초기화 및 이벤트 리스너 설정
+            // 페이지 로드 시 드롭다운 초기화 및 이벤트 리스너 설정
         document.addEventListener('DOMContentLoaded', function() {
-            populateDropdown();
-            populateSolutionDropdown();
-            
-            // 메인 페이지 드롭다운 선택 이벤트
-            document.getElementById('problem-select').addEventListener('change', handleProblemSelection);
-            
-            // 해설 보기 버튼 이벤트
-            const viewBtn = document.getElementById('view-solution-btn');
-            viewBtn.addEventListener('click', viewSolution);
-            viewBtn.addEventListener('click', createRipple);
-            
-            // 해설 페이지 드롭다운 선택 이벤트
-            document.getElementById('solution-problem-select').addEventListener('change', handleSolutionDropdownChange);
-        });
+                populateDropdown();
+                populateSolutionDropdown();
+                
+                // 메인 페이지 드롭다운 선택 이벤트
+                document.getElementById('problem-select').addEventListener('change', handleProblemSelection);
+                
+                // 해설 보기 버튼 이벤트
+                const viewBtn = document.getElementById('view-solution-btn');
+                viewBtn.addEventListener('click', viewSolution);
+                viewBtn.addEventListener('click', createRipple);
+                
+                // 해설 페이지 드롭다운 선택 이벤트
+                document.getElementById('solution-problem-select').addEventListener('change', handleSolutionDropdownChange);
+                
+                // 모달 외부 클릭 시 닫기
+                document.getElementById('modal-overlay').addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeModal();
+                    }
+                });
+                
+                // ESC 키로 모달 닫기
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape') {
+                        closeModal();
+                    }
+                });
+            });
+
+            // 인트로 스크린 처리
+            window.addEventListener('load', () => {
+                // body를 잠깐 비활성화 (인트로 중)
+                document.body.style.overflow = 'hidden';
+                
+                // 인트로가 끝나면 제거
+                setTimeout(() => {
+                    const intro = document.getElementById('intro-screen');
+                    intro.style.transition = 'opacity 1.2s ease';
+                    intro.style.opacity = '0';
+                    setTimeout(() => {
+                        intro.remove();
+                        document.body.style.overflow = '';
+                    }, 1200);
+                }, 4800); // 별빛 + 텍스트 노출 시간 (1초 연장)
+            });
     </script>
 </body>
 </html>
-
 
