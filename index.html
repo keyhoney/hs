@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>수학 해설지</title>
     
+    <!-- 캐시 방지 메타 태그 -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -956,6 +961,7 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             transition: all var(--transition-normal);
             font-size: 1.1rem;
+            color: #1a1a1a;
         }
 
         .solution-content p:hover {
@@ -992,9 +998,12 @@
 
         /* 강조 텍스트 */
         .solution-content strong {
-            color: rgba(102, 126, 234, 0.9);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-weight: 600;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         /* 인라인 수식 (math-display가 아닌) */
@@ -1216,6 +1225,133 @@
             }
         }
 
+        /* 테이블 스타일링 */
+        .solution-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--space-lg) 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .solution-content table thead {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.2) 100%);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        .solution-content table thead th {
+            padding: var(--space-lg) var(--space-md);
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        .solution-content table thead th::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+        }
+
+        .solution-content table tbody tr {
+            transition: all var(--transition-normal);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .solution-content table tbody tr:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .solution-content table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .solution-content table tbody td {
+            padding: var(--space-md) var(--space-lg);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            text-align: center;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all var(--transition-normal);
+            position: relative;
+        }
+
+        .solution-content table tbody td:last-child {
+            border-right: none;
+        }
+
+        .solution-content table tbody td:hover {
+            color: rgba(255, 255, 255, 1);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 수학 공식이 포함된 셀 스타일링 */
+        .solution-content table tbody td:first-child {
+            font-weight: 600;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.1) 100%);
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* 합계 행 강조 */
+        .solution-content table tbody tr:last-child td {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.15) 100%);
+            font-weight: 600;
+            color: rgba(255, 255, 255, 1);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 테이블 반응형 디자인 */
+        @media (max-width: 768px) {
+            .solution-content table {
+                font-size: 0.9rem;
+                margin: var(--space-md) 0;
+            }
+            
+            .solution-content table thead th,
+            .solution-content table tbody td {
+                padding: var(--space-sm) var(--space-md);
+            }
+            
+            .solution-content table thead th {
+                font-size: 1rem;
+            }
+        }
+
+        /* 테이블 애니메이션 */
+        @keyframes tableFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .solution-content table {
+            animation: tableFadeIn 0.8s ease-out;
+        }
+
         /* 다크 모드 지원 */
         @media (prefers-color-scheme: dark) {
             :root {
@@ -1242,6 +1378,15 @@
                 overflow-x: auto;
                 word-wrap: break-word;
                 overflow-wrap: break-word;
+            }
+
+            .solution-content table {
+                background: linear-gradient(135deg, rgba(45, 55, 72, 0.8) 0%, rgba(26, 32, 44, 0.6) 100%);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .solution-content table thead {
+                background: linear-gradient(135deg, rgba(102, 126, 234, 0.4) 0%, rgba(118, 75, 162, 0.3) 100%);
             }
         }
     </style>
@@ -1532,6 +1677,5 @@
     </script>
 </body>
 </html>
-
 
 
